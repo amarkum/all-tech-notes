@@ -1,8 +1,8 @@
 # Scala Notes
 
 ### 1. Entry Point
- 
- Your programs entry point is defined in a scala file using an object, with a
+
+Your programs entry point is defined in a scala file using an object, with a
 single method, main:
 
 ```scala
