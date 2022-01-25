@@ -1,0 +1,8 @@
+.idea/*
+target/
+*.txt
+*.iml
+*.iml/
+.DS_Store
+
+src/main/resources/output/*

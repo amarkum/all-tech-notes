@@ -1,1 +1,1 @@
-# interview-brushup-notes-questions
+# all-platform-tech-notes
