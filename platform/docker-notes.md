@@ -43,6 +43,9 @@ Latest Tag
 #### Kill all the running instance
 `docker kill <hash>`
 
+### Remove al Volumes
+`docker volume rm $(docker volume ls -q)`
+
 #### Remove the Docker Image
 `docker system prune -a`
 
