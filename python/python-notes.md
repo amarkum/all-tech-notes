@@ -1,6 +1,9 @@
 ## Install Python
 `brew install python`
 
+## Call out pip installation for Python
+`python3.10 -m pip`
+
 ## Install pip
 If script is not available,supply curl command to download file and execute it.
 `python get-pip.py`
