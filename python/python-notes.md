@@ -78,6 +78,7 @@ spark = SparkSession \
 
 sc = spark.sparkContext
 sc.addPyFile('/Users/amar/graphframes-0.5.0-spark2.1-s_2.11.jar')
-```
 
 from graphframes import GraphFrame
+```
+
