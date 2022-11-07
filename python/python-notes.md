@@ -62,3 +62,22 @@ Install `virtualenv` using `sudo` if not already present
 
 ## Find out which Python version pip points to
 $ `pip -V`
+
+
+### Import External JAR in notebook
+```python
+from pyspark.sql.session import SparkSession
+from pyspark import SparkContext
+
+
+spark = SparkSession \
+    .builder \
+    .appName("GraphFrames Analytics") \
+    .getOrCreate()
+
+
+sc = spark.sparkContext
+sc.addPyFile('/Users/amar/graphframes-0.5.0-spark2.1-s_2.11.jar')
+```
+
+from graphframes import GraphFrame
