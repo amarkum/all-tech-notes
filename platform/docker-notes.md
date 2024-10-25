@@ -1,48 +1,110 @@
-# Docker Command
+
+# Docker Commands Guide
+
+This guide provides essential Docker commands for building, tagging, pushing, pulling, and managing Docker images and containers. 
+
+---
 
 ## I. Build a Docker Image
 
-Latest Tag
-`docker build -t flask_webservice:latest .`<br/>
+Docker images are the blueprints for containers. You can create them from a Dockerfile.
 
-Custom Tag
-`docker build -f Dockerfile.prod -t react-app:prod .`<br/>
+- **Build with Latest Tag**  
+  Creates an image tagged with `latest` based on the Dockerfile in the current directory.
+  ```bash
+  docker build -t flask_webservice:latest .
+  ```
+
+- **Build with Custom Tag**  
+  Creates an image from a specific Dockerfile (e.g., `Dockerfile.prod`) and tags it with a custom name.
+  ```bash
+  docker build -f Dockerfile.prod -t react-app:prod .
+  ```
+
+---
 
 ## II. Push the Docker Image
 
-#### Re-tag docker image
+After building an image, it can be pushed to a registry like Docker Hub for sharing or deployment.
 
-Latest Tag
-`docker tag flask_webservice amarxcode/flask_webservice`<br/>
+### Re-tag Docker Image
 
-Custom Tag
-`docker tag sample:prod amarxcode/sample:prod`<br/>
+- **Latest Tag**  
+  Re-tags `flask_webservice` image as `amarxcode/flask_webservice`.
+  ```bash
+  docker tag flask_webservice amarxcode/flask_webservice
+  ```
 
-#### Push the Image to Docker Hub
-Custom Tag
-`docker push amarxcode/react-app:prod`<br/>
+- **Custom Tag**  
+  Re-tags `sample:prod` as `amarxcode/sample:prod` for a custom deployment.
+  ```bash
+  docker tag sample:prod amarxcode/sample:prod
+  ```
 
-Latest Tag
-`docker push amarxcode/flask_webservice`
+### Push the Image to Docker Hub
 
-### Pull the Dokcer Image & Run
-`docker pull registry.gitlab.com/amarxcode/flask_webservice`<br/>
-`docker run registry.gitlab.com/amarxcode/flask_webservice`<br/>
+- **Custom Tag**  
+  Pushes the custom-tagged `react-app:prod` image to Docker Hub.
+  ```bash
+  docker push amarxcode/react-app:prod
+  ```
 
-#### Docker Common Commands 
-`docker image ls -a`
+- **Latest Tag**  
+  Pushes the latest `flask_webservice` image to Docker Hub.
+  ```bash
+  docker push amarxcode/flask_webservice
+  ```
 
-## III. Remove Docker Images & Container
+---
 
-#### To delete all containers including its volumes use,
-`docker rm -vf $(docker ps -a -q)`
+## Pull the Docker Image & Run
 
-#### To delete all the images,
-`docker rmi -f $(docker images -a -q)`
+To pull an image from a registry (like GitLab) and run it.
 
-#### Kill all the running instance
-`docker kill <hash>`
+```bash
+docker pull registry.gitlab.com/amarxcode/flask_webservice
+docker run registry.gitlab.com/amarxcode/flask_webservice
+```
 
-#### Remove the Docker Image
-`docker system prune -a`
+---
 
+## Docker Common Commands
+
+Common commands for listing images, removing containers, and cleaning up Docker.
+
+- **List all Docker images**  
+  ```bash
+  docker image ls -a
+  ```
+
+---
+
+## III. Remove Docker Images & Containers
+
+- **Delete all containers (including volumes)**  
+  Removes all stopped containers and associated volumes.
+  ```bash
+  docker rm -vf $(docker ps -a -q)
+  ```
+
+- **Delete all images**  
+  Forcefully removes all Docker images.
+  ```bash
+  docker rmi -f $(docker images -a -q)
+  ```
+
+- **Kill all running containers**  
+  Stops all currently running containers by ID.
+  ```bash
+  docker kill <container_id>
+  ```
+
+- **Remove all unused images, containers, networks, and build caches**  
+  Cleans up Docker by removing unused items.
+  ```bash
+  docker system prune -a
+  ```
+
+--- 
+
+This guide covers the basics and a few advanced Docker commands for image and container management, ensuring a smooth workflow in Docker environments.
