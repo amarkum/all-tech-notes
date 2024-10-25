@@ -5,11 +5,6 @@ This repository offers a comprehensive collection of notes on various technology
 
 ## Repository Structure
 
-- **README.md**  
-  - The main README file that introduces the repository and provides navigation for all directories.
-
-### Technology Directories
-
 - **`bigdata/`**  
   Contains essential notes on big data tools, data processing commands, and technologies commonly used in data engineering and analytics.
 
