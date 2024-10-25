@@ -1,139 +1,139 @@
 
-# SQL NOTES
+# SQL Commands and Concepts Guide
 
-# 1. SQL Basics
+This guide covers SQL basics, advanced commands, functions, joins, and key concepts to help manage and manipulate databases effectively.
 
-## Show Column from a table
+---
 
+## 1. SQL Basics
+
+### Show Columns from a Table
+Display the columns in a specified table.
 ```sql
-SHOW COLUMN from table_name;
+SHOW COLUMNS FROM table_name;
 ```
-## Get the Schema definition of the table 
 
+### Get Table Schema Definition
+Retrieve the structure and definition of a table.
 ```sql
 DESC table_name;
 ```
 
-## Sorting the result from the table
+### Sorting the Result
+Order results by specific columns in ascending or descending order.
 ```sql
 SELECT * FROM table_name ORDER BY first_column DESC, second_column ASC;
 ```
 
-## Case-sensitive Order
+### Case-Sensitive Ordering
+Order rows with case sensitivity.
 ```sql
-SELECT * FROM FROM ORDER BY BINARY first_column;
+SELECT * FROM table_name ORDER BY BINARY first_column;
 ```
 
-## Sort by Casting
+### Sort by Casting
+Sort by converting data types (e.g., casting to CHAR).
 ```sql
-SELECT * FROM FROM ORDER BY CAST(first_column AS CHAR) ;
+SELECT * FROM table_name ORDER BY CAST(first_column AS CHAR);
 ```
 
-## Alter Table Column
-
+### Alter Table Column
+Modify column properties in a table.
 ```sql
-ALTER TABLE table_name CHANGE first_column fcolumn varchar(120);
+ALTER TABLE table_name CHANGE first_column fcolumn VARCHAR(120);
 ```
-## INDEX Table
 
+### Indexing Table
+Add an index to improve search speed.
 ```sql
 ALTER TABLE table_name ADD INDEX colOneIndex (first_column);
 ALTER TABLE table_name ADD INDEX colOneIndexWith10Chars (first_column(10));
 ```
 
-## Show INDEX
-
+### Display Indexes
+Show the index information of a table.
 ```sql
 SHOW INDEX FROM table_name;
-ANALYZE TABLE table_name;
 ```
 
-## TABLE ALIAS
+---
+
+## 2. Table Aliasing and DISTINCT Rows
+
+### Table Alias
+Create temporary names for columns or tables.
+```sql
+SELECT CONCAT(first_column, ' ', second_column) AS complete_column FROM table_name ORDER BY complete_column;
+```
+
+### DISTINCT Rows
+Remove duplicates in result rows.
+```sql
+SELECT DISTINCT first_column FROM table_name;
+SELECT DISTINCT first_column, second_column FROM table_name;
+```
+
+---
+
+## 3. Aggregate Functions
+
+Perform calculations on a set of values:
+- **COUNT**: Counts total rows.
+- **SUM**: Adds values.
+- **AVG**: Averages values.
+- **MAX/MIN**: Retrieves highest/lowest value.
 
 ```sql
-SELECT CONCAT(first_column,' ', seond_column) AS complete_column FROM table_name ORDER BY complete_column;
+SELECT COUNT(*) FROM table_name;
+SELECT SUM(first_column) FROM table_name;
+SELECT AVG(first_column) FROM table_name;
+SELECT MAX(first_column), MIN(first_column) FROM table_name;
 ```
 
-## DISTINCT ROWS
+---
 
-```sql
-SELECT DISTINCT first_column from table_name;
-```
+## 4. GROUP BY
 
-```sql
-SELECT DISTINCT first_column,second_column from table_name;
-```
-
-## AGGREGATED FUNCTION
-
-```sql
-SELECT COUNT(*)from table_name;
-SELECT SUM(first_column)from table_name;
-SELECT AVG(first_column)from table_name;
-SELECT MAX(first_column), MIN(first_column) from table_name;
-```
-
-# 2. GROUP BY
-
-GROUP BY clause must appear after the FROM and WHERE clauses and is also evaluated after them. 
-<br/> However, GROUP BY is evaluated before the ORDER BY, LIMIT, and HAVING clauses.
+`GROUP BY` organizes data by unique values in a specified column. It is evaluated after `FROM` and `WHERE`, but before `ORDER BY`.
 
 ```sql
 SELECT first_column, COUNT(*) FROM table_name GROUP BY first_column;
-```
-
-```sql
 SELECT first_column, AVG(quantity_column) FROM table_name GROUP BY first_column;
 ```
 
-# 3. HAVING
-HAVING clause can be used to filter rows to display but that is not the intended use and can make the query slower. <br/>
-The HAVING clause should be used to decide what rows form each group.
+---
+
+## 5. HAVING Clause
+
+`HAVING` filters groups in `GROUP BY` results based on aggregate conditions.
 
 ```sql
-SELECT first_column, AVG(quantity_column) as avgQuantity FROM table_name GROUP BY first_column HAVING avgQuantity > 100;
+SELECT first_column, AVG(quantity_column) AS avgQuantity FROM table_name GROUP BY first_column HAVING avgQuantity > 100;
 ```
 
-# 4. JOINS
-ANSI SQL standard defines 5 types of JOINS
+---
 
-- Inner Join
-- Left Outer Join 
-- Right Outer Join
-- Full Outer Join
-- Self Join
+## 6. JOINS
 
-### 1. INNER JOIN
+Joins combine rows from different tables:
+- **Inner Join**
+- **Left Outer Join**
+- **Right Outer Join**
+- **Full Outer Join**
+- **Self Join**
 
-#### Table with two different column name 
-
-```sql
-SELECT tab1Col1, tab1Col2, tab2Col1
-FROM table_one 
-INNER JOIN table_two  
-ON table_one.Id = table_two.relatedId;
-```
-
-#### Table with two same column name 
+### INNER JOIN Example
 ```sql
 SELECT tab1Col1, tab1Col2, tab2Col1
 FROM table_one 
-INNER JOIN table_two  
-USING (Id);
+INNER JOIN table_two ON table_one.Id = table_two.relatedId;
 ```
 
-#### Alternative
+---
 
-```sql
-SELECT tab1Col1, tab1Col2, tab2Col1
-FROM table_one,table_two 
-WHERE Id = relatedId;
-```
+## 7. UNION
 
-# 5. UNION
-
-The UNION clause allows us to combine the results from several queries together. <br/>
-The clause doesn't join the table but merely clubs the two results together.
+Combine results of two queries into one, without duplicates (use `UNION ALL` to include duplicates).
 
 ```sql
 SELECT tab1Col1 FROM table_one 
@@ -141,171 +141,99 @@ UNION
 SELECT tab1Col2 FROM table_one;
 ```
 
-Union doesn't includes the duplicate values. In order to include duplicate values in the result we use `UNION ALL` instead.
+---
 
-# 6. FUNCTIONS
+## 8. SQL Functions
 
-### `DISTINCT` & `MOD`
-```sql
-select distinct city from STATION where MOD(ID,2)=0;
-```
+Functions for data manipulation:
 
-### `LIKE`
-```sql
-SELECT * FROM movies where title LIKE '%toy%’
-```
+- **DISTINCT & MOD**
+  ```sql
+  SELECT DISTINCT city FROM STATION WHERE MOD(ID,2)=0;
+  ```
 
-```sql
-SELECT * FROM movies where director LIKE '%John%'
-```
+- **LIKE**
+  ```sql
+  SELECT * FROM movies WHERE title LIKE '%toy%';
+  SELECT * FROM movies WHERE director LIKE '%John%';
+  ```
 
-### `BETWEEN`
-```sql
-SELECT * FROM movies where year between 2000 and 2010;
-```
+- **BETWEEN**
+  ```sql
+  SELECT * FROM movies WHERE year BETWEEN 2000 AND 2010;
+  SELECT * FROM movies WHERE year NOT BETWEEN 2000 AND 2010;
+  ```
 
-### `NOT BETWEEN`
-```sql
-SELECT * FROM movies where year not between 2000 and 2010;
-```
+- **Mathematical Functions** (`SQRT`, `POWER`, `ABS`, `ROUND`, `CEIL`)
+  ```sql
+  SELECT SQRT(36), POWER(3,2), ABS(b-d), ROUND(sum(long_w),2), CEIL(AVG(REPLACE(SALARY,'0',' ')));
+  ```
 
-### DEFAULT - INNER JOIN
-```sql
-SELECT SUM(city.population) FROM city JOIN country ON CITY.CountryCode = COUNTRY.Code WHERE COUNTRY.CONTINENT='Asia’;
-```
+- **String Functions** (`REPLACE`, `LENGTH`)
+  ```sql
+  SELECT REPLACE(SALARY, '0', ' '), LENGTH(MAX(city)) FROM station;
+  ```
 
-### `SQRT` - returns the SQUARE root of a number
-```sql
-SQRT(36) = 6
-```
+---
 
-### `POWER` - returns the power of a number
-```sql
-POWER(3,2) = 9
-```
+## 9. Query Filtering: IN and BETWEEN
 
-### `ABS` - gets the Absolute Value [Positive Value]
-```sql
-ABS(b-d)
-```
+**IN** allows selection from a list, while **BETWEEN** selects within a range.
 
-### `ROUND` - rounds the number to n decimal number
-```sql
-ROUND(sum(long_w),2)
-```
+- **IN Example**
+  ```sql
+  SELECT * FROM Students WHERE ROLL_NO IN (20,21,23);
+  ```
 
-### `CEIL` - removes the decimal and gives the exact value
-```sql
-CEIL(AVG(REPLACE(SALARY,'0’,’ ‘)))
-```
+- **BETWEEN Example**
+  ```sql
+  SELECT * FROM Students WHERE ROLL_NO BETWEEN 20 AND 30;
+  ```
 
-### `REPLACE` - replaces the character with something
-```sql
-REPLACE(SALARY,'0’,' ')
-```
+---
 
-### `LENGTH` - returns the LENGTH of the string
-```sql
-Select MAX(city), LENGTH(MAX(city)) from station;
-Select MIN(city), LENGTH(MIN(city)) from station;
-```
+## 10. Data Deletion: DROP, TRUNCATE, DELETE
 
-### Difference of Value
-```sql
-SELECT MAX(POPULATION) - MIN(POPULATION) FROM CITY;
-```
+- **DROP**: Deletes the entire table, non-reversible.
+- **TRUNCATE**: Clears all rows in a table without undo option.
+- **DELETE**: Removes rows selectively with a WHERE clause.
 
-### Write an SQL query to find names of employee start with 'A'?
-```sql
-SELECT * FROM Employees WHERE EmpName like 'A%' ;
-```
+---
 
-### Difference Between `IN` and `BETWEEN`
+## 11. Keys: PRIMARY KEY and FOREIGN KEY
 
-I. `IN`
-```sql
-SELECT * FROM Students
-WHERE ROLL_NO IN (20,21,23);
-```
+- **Primary Key**: Unique identifier for table rows; disallows NULLs.
+- **Foreign Key**: Establishes link between two tables.
 
-II. `BETWEEN`
-```sql
-SELECT * FROM Students
-WHERE ROLL_NO BETWEEN 20 AND 30;
-```
+---
 
-### Difference Between `DROP` , `TRUNCATE` and `DELETE`
+## 12. Nested Query and Row Limits
 
-#### I. `DROP` - Removes entire TABLE<br/>
-The DROP command removes a table from the database.All the tables'rows, indexes and privileges will also be removed.<br/>
-No DML triggers will be fired. The operation cannot be rolled back.
+Example of using sub-queries and limiting rows with `ROWNUM`.
 
-#### II. `TRUNCATE` - Removes ALL Rows<br/>
-TRUNCATE removes all rows from a table.<br/>
-The operation cannot be rolled back and no triggers will be fired.<br/>
-As such,TRUNCATE is faster and doesn't use as much undo space as a DELETE.Table level lock will be added when Truncating.
-
-#### III. `DELETE` - Removes Row with WHERE CLAUSE<br/>
-The DELETE command is used to remove rows from a table. <br/>
-A WHERE clause can be used to only remove some rows. If no WHERE condition is specified, all rows will be removed.<br/>
-After DELETE operation you need to COMMIT or ROLLBACK the transaction to make changes permanent or to undo it.<br/> 
-Note that this operation will cause all DELETE triggers on the table to fire. Row level lock will be added when deleting.
-
-### `PRIMARY KEY`
-A primary key is used to ensure data in the specific column is unique. It is a column cannot have NULL values.<br/>
-It is either a column or a column that is specifically generated by the database according to a defined sequence.
-
-### `FOREIGN KEY`
-Foreign key is a column or group of columns in a RDBMS table that provides a link between data in two tables.<br/>
-It is a column (or columns) that references a column (most often the primary key) of another table.
-
-### Differences Between Primary key and Unique key
-- Primary key will not accept NULL values whereas Unique key can accept one NULL value.
-- A table can have only primary key whereas there can be multiple unique key on a table.
-- Clustered index is automatically created when primary key is defined whereas Unique key generates non-clustered index.
-
-### NESTED QUERY
 ```sql
 SELECT NAME, TOTAL FROM
-(SELECT NAME, SALARY * MONTHS AS TOTAL FROM EMPLOYEE WHERE SALARY > 2000 AND MONTHS<10 ORDER BY SALARY) 
-WHERE ROWNUM<=5;
+(SELECT NAME, SALARY * MONTHS AS TOTAL FROM EMPLOYEE WHERE SALARY > 2000 ORDER BY SALARY) 
+WHERE ROWNUM <= 5;
 ```
 
-### ROW LIMIT IN ORACLE - `ROWNUM`
-```sql
-SELECT ID, NAME,  FROM
-(SELECT NAME, SALARY FROM EMPLOYEE ORDER BY SALARY ASC)
-WHERE ROWNUM<=5;
-```
+---
 
-### `FETCH NEXT {N} ROWS ONLY` - FROM Oracle 12c
-```sql
-SELECT * FROM EMPLOYEE FETCH NEXT 5 ROWS ONLY;
-```
+## 13. Triangle Problem Example
 
-## TRIANGLE PROBLEM
+Using `CASE` to classify triangles.
+
 ```sql
 SELECT CASE WHEN a+b>c AND b+c>a AND a+c>b THEN
-            CASE
-                WHEN a=b AND b=c AND c=a THEN 'Equilateral'
-            ELSE
-                CASE WHEN a=b or b=c or c=a THEN 'Isosceles'
-                ELSE 'Scalene'
-                END
+            CASE WHEN a=b AND b=c THEN 'Equilateral'
+                 WHEN a=b OR b=c OR c=a THEN 'Isosceles'
+                 ELSE 'Scalene'
             END
         ELSE 'Not A Triangle'
         END
 FROM triangles;
 ```
 
-## Example of CASE Statement in Oracle
+---
 
-```sql
-CASE STATEMENT
-SELECT
-CASE
-           WHEN 1=1 THEN 'YES'
-           ELSE 'NO'
-END
-FROM ‘TABLE_NAME’
-```
+This guide provides essential SQL commands, functions, and advanced query techniques for data management.
