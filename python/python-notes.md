@@ -1,84 +1,164 @@
-## Install Python
-`brew install python`
 
-## Call out pip installation for Python
-`python3.10 -m pip`
+# Python and pip Installation Guide
 
-## Install pip
-If script is not available,supply curl command to download file and execute it.
-`python get-pip.py`
-This will install pip for the provided python.
+This guide covers the steps for installing Python, managing `pip`, setting up virtual environments, and working with Jupyter notebooks.
 
-If python links to => 3.7
-pip will be installed for 3.7, and all the dependecy will go for 3.7
+---
 
-If python link to python3, get-pip.py will install pip3
-If python link to python2, get-pip.py will install pip2
+## 1. Install Python
 
-The dependecies are generally stored in site package in `/Library/Python`
+On macOS, Python can be installed using Homebrew:
 
-Download the get-pip.py <br/>
-`$ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py` <br/>
-`$ python3 get-pip.py` <br/>
+```bash
+brew install python
+```
 
-## Upgrading pip
-`$ pip install --upgrade pip`
+---
 
+## 2. pip Installation and Management
 
-## Find out pip2 version & Update
-`which pip2` </br>
-`sudo -H pip2 install --upgrade pip`
+### Call Out pip Installation for a Specific Python Version
+If a specific Python version is needed, `pip` can be called out as follows:
 
-## Find out pip3 version & Update
-`which pip3` </br>
-`sudo -H pip3 install --upgrade pip`
+```bash
+python3.10 -m pip
+```
 
-## Uninstall pip
-`sudo -H pip3 uninstall pip`
+### Install pip (if not already installed)
+To install `pip` for Python, use `get-pip.py`.
 
-## Install a package via pip | skip cache directory
-`pip install matplotlib --no-cache-dir`
+1. **Download the `get-pip.py` file**:
+   ```bash
+   curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+   ```
 
-## JupyterLab notebook or jupyter lab can be installed using conda or pip.
-`pip install notebook`
-<br/>`pip install jupyterlab`
+2. **Run the Installation Script**:
+   ```bash
+   python3 get-pip.py
+   ```
 
-## To run the jupyter notebook or jupyter lab, run the following command at the Terminal
-`jupyter notebook`
-<br/>`jupyter lab`
+- If `python` links to `python3`, `get-pip.py` will install `pip3`.
+- If `python` links to `python2`, `get-pip.py` will install `pip2`.
 
-## Creating a Virtual Environment
-Install `virtualenv` using `sudo` if not already present
+### Dependency Storage
 
-`$ sudo pip install virtualenv`
+Dependencies installed by `pip` are stored in the `site-packages` directory. Common path on macOS:
+```plaintext
+/Library/Python
+```
 
-`$ virtualenv -p python3.8 audioenv`
+---
 
-### Create Envitonment
-`$ python3 -m venv virtual`
+## 3. Upgrading pip
 
-### Activate Envitonment
-`$ source virtual/bin/activate`
+Upgrade `pip` to the latest version:
+```bash
+pip install --upgrade pip
+```
 
-## Find out which Python version pip points to
-$ `pip -V`
+### Find and Update pip2 and pip3 Versions
 
+1. **Check `pip2` version and update**:
+   ```bash
+   which pip2
+   sudo -H pip2 install --upgrade pip
+   ```
 
-### Import External JAR in notebook
+2. **Check `pip3` version and update**:
+   ```bash
+   which pip3
+   sudo -H pip3 install --upgrade pip
+   ```
+
+### Uninstall pip
+To remove `pip3`:
+```bash
+sudo -H pip3 uninstall pip
+```
+
+---
+
+## 4. Installing Packages via pip
+
+To install a package without caching:
+```bash
+pip install matplotlib --no-cache-dir
+```
+
+---
+
+## 5. Jupyter Notebook and JupyterLab Installation
+
+Jupyter can be installed using `pip`:
+
+```bash
+pip install notebook
+pip install jupyterlab
+```
+
+### Launch Jupyter Notebook or JupyterLab
+Run the following command in the terminal:
+
+```bash
+jupyter notebook
+jupyter lab
+```
+
+---
+
+## 6. Creating a Virtual Environment
+
+A virtual environment is an isolated Python environment for managing dependencies.
+
+### Install `virtualenv` (if not already installed)
+```bash
+sudo pip install virtualenv
+```
+
+### Create a Virtual Environment
+- Using `virtualenv` with a specific Python version:
+  ```bash
+  virtualenv -p python3.8 audioenv
+  ```
+
+- Using `venv`:
+  ```bash
+  python3 -m venv virtual
+  ```
+
+### Activate the Virtual Environment
+Activate the virtual environment to work within it.
+
+```bash
+source virtual/bin/activate
+```
+
+### Check Python Version Associated with pip
+Find out which Python version `pip` points to:
+```bash
+pip -V
+```
+
+---
+
+## 7. Importing External JARs in Jupyter Notebooks
+
+In a Jupyter notebook, you can import external JAR files with `pyspark`:
+
 ```python
 from pyspark.sql.session import SparkSession
 from pyspark import SparkContext
 
+# Initialize Spark session
+spark = SparkSession.builder.appName("GraphFrames Analytics").getOrCreate()
 
-spark = SparkSession \
-    .builder \
-    .appName("GraphFrames Analytics") \
-    .getOrCreate()
-
-
+# Add JAR file to Spark context
 sc = spark.sparkContext
 sc.addPyFile('/Users/amar/graphframes-0.5.0-spark2.1-s_2.11.jar')
 
 from graphframes import GraphFrame
 ```
 
+---
+
+This guide provides a comprehensive approach to installing Python, managing `pip`, setting up virtual environments, and working with Jupyter notebooks and external libraries.
